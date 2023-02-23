@@ -9,8 +9,7 @@
 from datetime import datetime, date, timedelta
 print('Started at', datetime.now())
 
-import itertools
-import pathlib, time, re, random
+import pathlib
 import configparser
 from lots.util import daterange, removeLogs
 
