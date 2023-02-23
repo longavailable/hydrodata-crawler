@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 '''
-* Updated on 2023/02/15
+* Updated on 2023/02/23
 * python3
 **
 * crawl / download hydrological data (water level and flow)
@@ -38,7 +38,11 @@ s.headers = headers
 # encode/decode functions
 js_link = [ 'http://yc.wswj.net/ahsxx/lol/script/watersecurity.js',
 	'https://raw.githubusercontent.com/longavailable/datarepo02/main/code/javascript/waterSecurity.js'	]
-waterSecurity = js2py.eval_js(s.get(js_link[0]).text)
+
+try:
+	waterSecurity = js2py.eval_js(s.get(js_link[0]).text)
+except:
+	waterSecurity = js2py.eval_js(s.get(js_link[1]).text)
 
 '''
 # test
