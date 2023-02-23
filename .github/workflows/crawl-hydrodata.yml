@@ -49,6 +49,7 @@ jobs:
           git push https://github-actions:$gh_token@github.com/longavailable/hydrodata.git main
  
   crawl-hbsl:
+    needs: crawl-datong
     runs-on: ubuntu-latest	# access from github ip (us)
     steps:
 
