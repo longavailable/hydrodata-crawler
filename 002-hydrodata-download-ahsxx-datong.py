@@ -17,7 +17,10 @@ import requests
 import js2py
 import pathlib, time, random, json
 import configparser
-from lots.util import recordExist_dict, writeLogsDicts2csv
+if pathlib.Path('mytool/lots/util.py').is_file():
+	from mytool.lots.util import recordExist_dict, writeLogsDicts2csv
+else:
+	from lots.util import recordExist_dict, writeLogsDicts2csv
 
 
 headers = {

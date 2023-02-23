@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 '''
-* Updated on 2023/02/22
+* Updated on 2023/02/23
 * python3
 **
 * remove nodata lines
@@ -11,7 +11,11 @@ print('Started at', datetime.now())
 
 import pathlib
 import configparser
-from lots.util import daterange, removeLogs
+
+if pathlib.Path('mytool/lots/util.py').is_file():
+	from mytool.lots.util import daterange, removeLogs
+else:
+	from lots.util import daterange, removeLogs
 
 date0 = date(2000, 1, 1)
 date1 = date.today()

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 '''
-* Updated on 2023/02/10
+* Updated on 2023/02/23
 * python3
 **
 * crawl / download hydrological data (water level and flow)
@@ -17,7 +17,10 @@ print('Started at', datetime.now())
 import requests
 import pathlib, time, re, random
 import configparser
-from lots.util import recordExist_dict, writeLogsDicts2csv, writeLogs, is_number
+if pathlib.Path('mytool/lots/util.py').is_file():
+	from mytool.lots.util import recordExist_dict, writeLogsDicts2csv, writeLogs, is_number
+else:
+	from lots.util import recordExist_dict, writeLogsDicts2csv, writeLogs, is_number
 
 items = ['STCD', 'RVNM', 'STNM', 'Z', 'Q']
 stios = ['三峡水库', '丹江口水库', '水布垭', '隔河岩']	# The stations have inflow and outflow.
