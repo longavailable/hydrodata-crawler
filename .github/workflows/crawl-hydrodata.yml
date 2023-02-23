@@ -22,12 +22,12 @@ jobs:
           repository: longavailable/hydrodata
           token: ${{ secrets.HYDRODATA_TOKEN }}
           path: data
-
-      - name: setup python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.x'
-
+          
+      #- name: setup python
+      #  uses: actions/setup-python@v4
+      #  with:
+      #    python-version: '3.x'
+          
       - name: install python packages
         env:
           gh_token: ${{ secrets.HYDRODATA_TOKEN }}
