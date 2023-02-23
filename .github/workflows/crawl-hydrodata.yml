@@ -8,8 +8,9 @@ on:
     - cron: '8 8 */5 * *' # runs at 8:08 UTC every 5 days
 
 jobs:
-  collect:
-    runs-on: ubuntu-latest
+  crawl:
+    #runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
 
       - name: checkout scripts repo
