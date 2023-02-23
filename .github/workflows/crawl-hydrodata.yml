@@ -22,6 +22,13 @@ jobs:
           repository: longavailable/hydrodata
           token: ${{ secrets.HYDRODATA_TOKEN }}
           path: data
+        
+      - name: checkout tool repo
+        uses: actions/checkout@v3
+        with: 
+          repository: longavailable/python-toolbox
+          token: ${{ secrets.HYDRODATA_TOKEN }}
+          path: mytool
           
       #- name: setup python
       #  uses: actions/setup-python@v4
@@ -29,12 +36,9 @@ jobs:
       #    python-version: '3.x'
           
       - name: install python packages
-        env:
-          gh_token: ${{ secrets.HYDRODATA_TOKEN }}
         run: |
           python -m pip install --upgrade pip
           pip install -U -r requirements.txt
-          pip install -U git+https://github-actions:$gh_token@github.com/longavailable/python-toolbox
           
       - name: execute python script 002
         run: python 002-hydrodata-download-ahsxx-datong.py
