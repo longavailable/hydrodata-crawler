@@ -14,13 +14,12 @@ jobs:
 
       - name: checkout scripts repo
         uses: actions/checkout@v3
-        with:
-          token: ${{ secrets.HYDRODATA_TOKEN }}
         
       - name: checkout data repo
         uses: actions/checkout@v3
         with: 
           repository: longavailable/hydrodata
+          token: ${{ secrets.HYDRODATA_TOKEN }}
           path: data
 
       - name: setup python
@@ -29,9 +28,12 @@ jobs:
           python-version: '3.x'
 
       - name: install python packages
+        env:
+          gh_token: ${{ secrets.HYDRODATA_TOKEN }}
         run: |
           python -m pip install --upgrade pip
           pip install -U -r requirements.txt
+          pip install -U git+https://github-actions:$gh_token@github.com/longavailable/python-toolbox
           
       - name: execute python script 002
         run: python 002-hydrodata-download-ahsxx-datong.py
@@ -43,11 +45,13 @@ jobs:
         run: python 004-remove-nodata.py
 
       - name: commit and push data repo
+        env:
+          gh_token: ${{ secrets.HYDRODATA_TOKEN }}
         run: |
           cd data
           git config user.email github-actions@github.com
           git config user.name github-actions
           git add .
           git commit -m "Update hydrodata from Action `date`"
-          git push
+          git push https://github-actions:$gh_token@github.com/longavailable/hydrodata.git main
  
