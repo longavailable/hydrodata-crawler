@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 '''
-* Updated on 2023/02/23
+* Updated on 2023/02/24
 * python3
 **
 * crawl / download hydrological data (water level and flow)
@@ -17,6 +17,7 @@ import requests
 import js2py
 import pathlib, time, random, json
 import configparser
+import pandas as pd
 if pathlib.Path('mytool/lots/util.py').is_file():
 	from mytool.lots.util import recordExist_dict, writeLogsDicts2csv
 else:
@@ -141,5 +142,12 @@ lt = { 'year': time0.year, 'month': time0.month, 'day': time0.day, 'hour': time0
 config['datong'] = lt
 with open(configfile, 'w') as f:
 	config.write(f)
+
+# sort out - remove no data (Z, Q) record
+filenames = list(pathlib.Path('data/hourly').glob('*.csv'))
+for filename in filenames:
+	data = pd.read_csv(filename, low_memory=False)
+	data2 = data.dropna(subset=['Z', 'Q'], how='all').sort_values(by=['year', 'month', 'day', 'hour'])
+	data2.to_csv(filename, index=False)
 
 print('Done at', datetime.now())
