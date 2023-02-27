@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 '''
-* Updated on 2023/02/24
+* Updated on 2023/02/27
 * python3
 **
 * crawl / download hydrological data (water level and flow)
@@ -50,9 +50,18 @@ time0 = datetime( 	int(config['hbsl']['year']),
 					int(config['hbsl']['month']),
 					int(config['hbsl']['day']),
 					int(config['hbsl']['hour']))
-# end date
-time1 = datetime( date.today().year, date.today().month, date.today().day, 0)
+# end date - today or 100 days after time0
+time1 = min(datetime( date.today().year, date.today().month, date.today().day, 0), time0 + timedelta(days=100))
 print('t0:', time0, 't1:', time1)
+
+def exportdata(filename, record):
+	""" Export record.
+	"""
+	if record['Z'] or record['Q']:
+		# record filter (time)
+		ct = { 'year': record['year'], 'month': record['month'], 'day': record['day'], 'hour': record['hour']}
+		if not recordExist_dict(filename, ct):
+			writeLogsDicts2csv(filename, record)
 
 # main part
 while time0 < time1:
@@ -83,8 +92,7 @@ while time0 < time1:
 					else:
 						record['Q'] = ''
 					filename = pathlib.Path('data/hourly') / ( d['STCD'] + '-' + d['RVNM'] + '-' + d['STNM'] + '入.csv' )
-					if not recordExist_dict(filename, ct):
-						writeLogsDicts2csv(filename, record)
+					exportdata(filename, record)
 						
 					# outflow of reservoir
 					if '出' in d['Q']: 
@@ -92,15 +100,14 @@ while time0 < time1:
 					else:
 						record['Q'] = ''
 					filename = pathlib.Path('data/hourly') / ( d['STCD'] + '-' + d['RVNM'] + '-' + d['STNM'] + '出.csv' )
-					if not recordExist_dict(filename, ct):
-						writeLogsDicts2csv(filename, record)
+					exportdata(filename, record)
 						
 				# Q for general stations
 				else:
 					record['Q'] = d['Q']
 					filename = pathlib.Path('data/hourly') / ( d['STCD'] + '-' + d['RVNM'] + '-' + d['STNM'] + '.csv' )
-					if not recordExist_dict(filename, ct):
-						writeLogsDicts2csv(filename, record)
+					exportdata(filename, record)
+				
 			# right panel
 			if items[0] + '1' in d:
 				'''
@@ -117,22 +124,19 @@ while time0 < time1:
 					else:
 						record['Q'] = ''
 					filename = pathlib.Path('data/hourly') / ( d['STCD1'] + '-' + d['RVNM1'] + '-' + d['STNM1'] + '入.csv' )
-					if not recordExist_dict(filename, ct):
-						writeLogsDicts2csv(filename, record)
+					exportdata(filename, record)
 						
-					if '出' in d['Q1']: 
+					if '出' in d['Q1']:
 						record['Q'] = re.findall(r'[-+]?(?:\d*\.*\d+)', d['Q1'])[-1]
 					else:
 						record['Q'] = ''
 					filename = pathlib.Path('data/hourly') / ( d['STCD1'] + '-' + d['RVNM1'] + '-' + d['STNM1'] + '出.csv' )
-					if not recordExist_dict(filename, ct):
-						writeLogsDicts2csv(filename, record)
+					exportdata(filename, record)
 					
 				else:
 					record['Q'] = d['Q1']
 					filename = pathlib.Path('data/hourly') / ( d['STCD1'] + '-' + d['RVNM1'] + '-' + d['STNM1'] + '.csv' )
-					if not recordExist_dict(filename, ct):
-						writeLogsDicts2csv(filename, record)
+					exportdata(filename, record)
 	else:
 		print('Task was interrupted at', time0)
 		break
