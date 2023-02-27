@@ -1,4 +1,4 @@
-name: Crawl hydrodata - datong schedulely
+name: Crawl hydrodata schedulely
 
 on:
   push:
