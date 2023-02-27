@@ -5,7 +5,7 @@ on:
     branches:
       - main
   schedule:
-    - cron: '18 8 */5 * *' # runs at 18:08 UTC every 5 days
+    - cron: '8 16 */5 * *' # runs at 16:08 UTC every 5 days
 
 jobs:
   crawl-datong:
