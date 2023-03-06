@@ -25,7 +25,7 @@ for filename in filenames:
 	newdata2 = newdata.dropna(subset=items, how='all').sort_values(by=['year', 'month', 'day'])
 	if len(newdata2) > 0:
 		filename2 = filename.parents[1] / 'daily' / filename.name
-		filename2.mkdir(parents=True, exist_ok=True)
+		filename2.parent.mkdir(parents=True, exist_ok=True)
 		newdata2.to_csv(filename2, index=False)
 	else:
 		print('No data to export!')
