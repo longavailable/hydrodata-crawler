@@ -2,3 +2,4 @@ js2py==0.74
 pandas
 matplotlib
 requests
+time-weighted-average-for-water
