@@ -10,11 +10,11 @@ from datetime import datetime
 print('Started at', datetime.now())
 
 import pathlib
+from multiprocessing.dummy import Pool as ThreadPool
 import pandas as pd
 from twaw import dailyAverage
 
-filenames = list(pathlib.Path('data/hourly').glob('*.csv'))
-for filename in filenames:
+def job(filename):
 	data = pd.read_csv(filename)
 	data['time'] = pd.to_datetime(data[['year', 'month', 'day', 'hour']])
 
@@ -29,5 +29,13 @@ for filename in filenames:
 		newdata2.to_csv(filename2, index=False)
 	else:
 		print('No data to export!')
+
+#main
+filenames = list(pathlib.Path('data/hourly').glob('*.csv'))
+# run job parallelly
+pool = ThreadPool(4)
+pool.map(job, filenames)
+pool.close()
+pool.join()
 	
 print('Done at', datetime.now())
