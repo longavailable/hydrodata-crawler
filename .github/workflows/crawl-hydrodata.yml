@@ -19,14 +19,12 @@ jobs:
         uses: actions/checkout@v3
         with: 
           repository: longavailable/hydrodata
-          token: ${{ secrets.HYDRODATA_TOKEN }}
           path: data
         
       - name: checkout tool repo
         uses: actions/checkout@v3
         with: 
           repository: longavailable/python-toolbox
-          token: ${{ secrets.HYDRODATA_TOKEN }}
           path: mytool
           
       - name: install python packages
@@ -38,17 +36,16 @@ jobs:
         run: python 002-hydrodata-download-ahsxx-datong.py
 
       - name: commit and push data repo
-        env:
-          gh_token: ${{ secrets.HYDRODATA_TOKEN }}
         run: |
           cd data
           git config user.email github-actions@github.com
           git config user.name github-actions
           git add .
-          git commit -m "Update hydrodata(datong) from Action `date`"
-          git push https://github-actions:$gh_token@github.com/longavailable/hydrodata.git main
+          git commit -m "Update hydrodata(datong) from Action `date`"		  
+          git push https://github.com/longavailable/hydrodata.git main
  
   crawl-hbsl:
+    if: ${{ always() }}
     needs: crawl-datong
     runs-on: ubuntu-latest	# access from github ip (us)
     steps:
