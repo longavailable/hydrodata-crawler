@@ -1,0 +1,47 @@
+name: Average hydrodata schedulely
+
+on:
+  push:
+    branches:
+      - main
+  schedule:
+    - cron: '9 9 9 */1 *' # runs at 9:09 UTCon 8th day of month in every month
+
+jobs: 
+  daily-average:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: checkout scripts repo
+        uses: actions/checkout@v3
+        
+      - name: checkout data repo
+        uses: actions/checkout@v3
+        with: 
+          repository: longavailable/hydrodata
+          token: ${{ secrets.HYDRODATA_TOKEN }}
+          path: data
+          
+      - name: setup python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+          
+      - name: install python packages
+        run: |
+          python -m pip install --upgrade pip
+          pip install -U -r requirements.txt
+
+      - name: execute python script 004
+        run: python 004-daily-average.py
+
+      - name: commit and push data repo
+        env:
+          gh_token: ${{ secrets.HYDRODATA_TOKEN }}
+        run: |
+          cd data
+          git config user.email github-actions@github.com
+          git config user.name github-actions
+          git add .
+          git commit -m "Calculate daily average from Action `date`"
+          git push https://github-actions:$gh_token@github.com/longavailable/hydrodata.git main
