@@ -38,13 +38,15 @@ jobs:
         run: python 002-hydrodata-download-ahsxx-datong.py
 
       - name: commit and push data repo
+        env:
+          gh_token: ${{ secrets.HYDRODATA_TOKEN }}
         run: |
           cd data
           git config --local user.email github-actions@github.com
           git config --local user.name github-actions
           git add .
-          git commit -m "Update hydrodata(datong) from Action `date`"		  
-          git push
+          git commit -m "Update hydrodata(datong) from Action `date`"
+          git push https://github-actions:$gh_token@github.com/longavailable/hydrodata.git main
  
   crawl-hbsl:
     if: ${{ always() }}
