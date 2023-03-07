@@ -38,7 +38,6 @@ jobs:
         run: python 002-hydrodata-download-ahsxx-datong.py
 
       - name: commit and push data repo
-        uses: actions/checkout@v3
         run: |
           cd data
           git config user.email github-actions@github.com
@@ -88,8 +87,8 @@ jobs:
           gh_token: ${{ secrets.HYDRODATA_TOKEN }}
         run: |
           cd data
-          git config user.email github-actions@github.com
-          git config user.name github-actions
+          git config --local user.email github-actions@github.com
+          git config --local user.name github-actions
           git add .
           git commit -m "Update hydrodata(hbsl) from Action `date`"
           git push https://github-actions:$gh_token@github.com/longavailable/hydrodata.git main
