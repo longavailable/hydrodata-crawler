@@ -36,12 +36,9 @@ jobs:
         run: python 004-daily-average.py
 
       - name: commit and push data repo
-        env:
-          gh_token: ${{ secrets.HYDRODATA_TOKEN }}
-        run: |
-          cd data
-          git config user.email github-actions@github.com
-          git config user.name github-actions
-          git add .
-          git commit -m "Calculate daily average from Action `date`"
-          git push https://github-actions:$gh_token@github.com/longavailable/hydrodata.git main
+        uses: jasineri/simple-push-action@v2
+        with:
+          repository: longavailable/hydrodata
+          token: ${{ secrets.HYDRODATA_TOKEN }}
+          path: data
+          message: "Calculate daily average from Action `date`"
