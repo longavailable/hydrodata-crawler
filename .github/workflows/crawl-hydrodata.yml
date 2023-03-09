@@ -24,7 +24,7 @@ jobs:
         
       - name: checkout tool repo
         uses: actions/checkout@v3
-        with: 
+        with:
           repository: longavailable/longs-python-toolbox
           path: mytool
           
@@ -57,8 +57,8 @@ jobs:
         
       - name: checkout tool repo
         uses: actions/checkout@v3
-        with: 
-          repository: longavailable/python-toolbox
+        with:
+          repository: longavailable/longs-python-toolbox
           path: mytool
           
       - name: setup python
