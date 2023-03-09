@@ -36,7 +36,7 @@ jobs:
         run: python 004-daily-average.py
 
       - name: commit and push data repo
-        uses: jasineri/simple-push-action@v2
+        uses: longavailable/simple-push-action@longavailable-patch-1
         with:
           repository: longavailable/hydrodata
           token: ${{ secrets.HYDRODATA_TOKEN }}
