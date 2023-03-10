@@ -1,7 +1,9 @@
 name: Average hydrodata schedulely
 
 on:
-  workflow_dispatch:
+  workflow_dispatch:	# push
+    branches:
+      - main
   schedule:
     - cron: '9 9 9 */1 *' # runs at 9:09 UTCon 8th day of month in every month
 
