@@ -1,0 +1,40 @@
+name: Crawl hydrodata(datong) schedulely
+
+on:
+  workflow_dispatch:	# push
+    branches:
+      - main
+  schedule:
+    - cron: '8 16 */5 * *' # runs at 16:08 UTC every 5 days
+
+jobs:
+  crawl-datong:
+    runs-on: self-hosted	# access from cn-ip
+    steps:
+
+      - name: checkout scripts repo
+        uses: actions/checkout@v3
+        
+      - name: checkout data repo
+        uses: actions/checkout@v3
+        with: 
+          repository: longavailable/hydrodata
+          token: ${{ secrets.HYDRODATA_TOKEN }}
+          path: data
+        
+      - name: checkout tool repo
+        uses: actions/checkout@v3
+        with:
+          repository: longavailable/longs-python-toolbox
+          path: mytool
+          
+      - name: execute python script 002
+        run: python 002-hydrodata-download-ahsxx-datong.py
+
+      - name: commit and push data repo
+        uses: longavailable/simple-push-action@longavailable
+        with:
+          repository: longavailable/hydrodata
+          token: ${{ secrets.HYDRODATA_TOKEN }}
+          path: data
+          message: "Update hydrodata(datong) from Action `date`"
