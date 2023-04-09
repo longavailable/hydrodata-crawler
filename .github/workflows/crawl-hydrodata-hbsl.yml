@@ -9,7 +9,7 @@ on:
     # - cron: '8 16 */5 * *' # runs at 16:08 UTC every 5 days
   
   workflow_run:
-    workflow: ['Crawl hydrodata(datong) schedulely']
+    workflows: ['Crawl hydrodata(datong) schedulely']
     branches: [main]
     types:
       - completed
