@@ -8,12 +8,15 @@ on:
   # schedule:
     # - cron: '8 16 */5 * *' # runs at 16:08 UTC every 5 days
   
-  workflow_run:
-    workflows: ['Crawl hydrodata(datong) schedulely']
-    branches: [main]
-    types:
-      - completed
-
+  #workflow_run:
+   # workflows: ['Crawl hydrodata(datong) schedulely']
+   # branches: [main]
+   # types:
+   #   - completed
+   
+  repository_dispatch:
+    types: [datong]
+    
 jobs:
   crawl-hbsl:
     #if: ${{ always() }}
