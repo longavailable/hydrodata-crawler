@@ -5,8 +5,8 @@ on:
   # push:
     # branches:
       # - main
-  # schedule:
-    # - cron: '8 16 */5 * *' # runs at 16:08 UTC every 5 days
+  schedule:
+    - cron: '8 4 */5 * *' # runs at 4:08 UTC every 5 days
   
   #workflow_run:
    # workflows: ['Crawl hydrodata(datong) schedulely']
