@@ -11,6 +11,8 @@
 * - export in csv format.
 '''
 
+import warnings
+warnings.filterwarnings("ignore", category=DeprecationWarning)
 from datetime import datetime, date, timedelta
 print('Started at', datetime.now())
 
