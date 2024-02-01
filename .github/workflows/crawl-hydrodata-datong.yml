@@ -13,17 +13,17 @@ jobs:
     steps:
 
       - name: checkout scripts repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@main
         
       - name: checkout data repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@main
         with: 
           repository: longavailable/hydrodata
           token: ${{ secrets.HYDRODATA_TOKEN }}
           path: data
         
       - name: checkout tool repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@main
         with:
           repository: longavailable/longs-python-toolbox
           path: mytool
