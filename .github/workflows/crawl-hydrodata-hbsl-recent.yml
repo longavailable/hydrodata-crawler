@@ -1,4 +1,4 @@
-name: Crawl hydrodata(hbsl) schedulely
+name: Crawl hydrodata(hbsl-recent) schedulely
 
 on:
   workflow_dispatch:	
